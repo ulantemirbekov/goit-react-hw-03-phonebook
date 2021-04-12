@@ -1,6 +1,5 @@
 import { Component } from 'react';
 // import PropTypes from 'prop-types';
-// import { v4 as uuid } from 'uuid';
 import Section from './Components/Section/Section';
 import Form from './Components/Form/Form';
 import Contacts from './Components/Contacts/Contacts';
@@ -17,6 +16,26 @@ class App extends Component {
       { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
     ],
     filter: '',
+  };
+
+  componentDidMount() {
+
+    const contacts = localStorage.getItem("contacts");
+    const parsedContacts = JSON.parse(contacts);
+
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts })
+    }
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+
+    const nextContacts = this.state.contacts;
+    const prevContacts = prevState.contacts;
+
+    if (nextContacts !== prevContacts) {
+      localStorage.setItem("contacts", JSON.stringify(this.state.contacts))
+    };
   };
 
   addContact = (newContact) => {
